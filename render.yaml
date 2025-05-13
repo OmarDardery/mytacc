@@ -4,5 +4,6 @@
       env: python
       buildCommand: |
         pip install -r requirements.txt
+        cd mainApp/liasu && npm install && npm run build
         python manage.py collectstatic --noinput
       startCommand: gunicorn mytacc.wsgi:application --workers 3 --bind 0.0.0.0:8000
