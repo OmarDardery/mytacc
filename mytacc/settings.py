@@ -32,10 +32,12 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'mainApp'
 ]
 
 MIDDLEWARE = [
@@ -113,10 +115,46 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
-
+STATICFILES_DIRS = [
+    BASE_DIR / "templates/mainApp/liasu/build/static"
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'mainApp.User'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
+
+
+# Cache-based sessions backed by Redis/memcached
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
+# File-based sessions
+# SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+
+# Cookie-based sessions (server doesn't store anything; data is stored on the client)
+# SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
+SESSION_COOKIE_AGE = 300  # Set session expiration time in seconds (default is 2 weeks).
+SESSION_SAVE_EVERY_REQUEST = True  # Save the session on every request if modified.
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Keep database backend.
+
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'your-smtp-host.com'      # SMTP server, e.g., smtp.gmail.com
+EMAIL_PORT = 587                       # Port for TLS (typically 587)
+EMAIL_USE_TLS = True                   # Use TLS encryption
+EMAIL_HOST_USER = 'your-email@example.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'your-password'      # Your email password
+DEFAULT_FROM_EMAIL = 'your-email@example.com'
