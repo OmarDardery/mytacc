@@ -1,6 +1,8 @@
-services:
-  - type: web
-    name: mytacc
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn mytacc.wsgi:application --workers 3 --bind 0.0.0.0:8000
+  services:
+    - type: web
+      name: mytacc
+      env: python
+      buildCommand: |
+        pip install -r requirements.txt
+        python manage.py collectstatic --noinput
+      startCommand: gunicorn mytacc.wsgi:application --workers 3 --bind 0.0.0.0:8000
