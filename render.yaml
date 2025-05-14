@@ -1,13 +1,23 @@
-  services:
-    - type: web
-      name: mytacc
-      env: python
-      buildCommand: |
-        pip install -r requirements.txt
-        cd templates/mainApp_react/liasu
-        npm install
-        npm run build
-        cd ../../../..
-        python manage.py collectstatic --noinput
-
-      startCommand: gunicorn mytacc.wsgi:application --workers 3 --bind 0.0.0.0:8000
+   services:
+     - type: web
+       name: mytacc
+       env: python
+       region: oregon
+       buildCommand: |
+         pip install -r requirements.txt
+         cd templates/mainApp_react/liasu
+         npm install
+         npm run build
+         cd ../../../..
+         python manage.py collectstatic --noinput
+       startCommand: gunicorn mytacc.wsgi:application --workers 3 --bind 0.0.0.0:8000
+       autoDeploy: true
+       envVars:
+         - key: DJANGO_SETTINGS_MODULE
+           value: mytacc.settings
+         - key: PYTHON_VERSION
+           value: 3.11.11
+         - key: SECRET_KEY
+           sync: false
+         - key: DATABASE_URL
+           sync: false
