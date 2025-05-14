@@ -10,4 +10,5 @@ urlpatterns = [
     path('api/logout/after-logout', views.index, name='index'),
     path('account/', views.account_page, name='account-page'),
     path('api/log/<str:type>', views.log, name='log'),
+    path('api/tasks', views.get_tasks_and_debts, name='get'),
 ]

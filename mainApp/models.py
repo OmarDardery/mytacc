@@ -15,17 +15,21 @@ class User(AbstractUser):
 
 class Task(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.TextField
+    name = models.TextField(default="No name")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
     completed = models.BooleanField(default=False)
     points = models.IntegerField(default=0)
     def __str__(self):
         return self.name
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
 
 class Debt(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='debts')
-    amount = models.IntegerField(default=0)
+    points = models.IntegerField(default=0)
     def __str__(self):
         return self.name
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)

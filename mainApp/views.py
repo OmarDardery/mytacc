@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.middleware import csrf
 from django.conf import settings
-from .models import User, Task
+from .models import User, Task, Debt
 import random
 import string
 import json
@@ -125,4 +125,13 @@ def log(request, type):
             return JsonResponse({'status': 'success', 'message': 'added debt successfully'})
         else:
             return JsonResponse({'status': 'failed', 'message': 'Invalid type'})
+    return JsonResponse({'status': 'failed', 'error': 'Invalid request'})
+@login_required(login_url='')
+def get_tasks_and_debts(request):
+    if request.method == 'GET':
+        tasks = Task.objects.filter(user=request.user)
+        debts = Debt.objects.filter(user=request.user)
+        tasks_data = [{'name': task.name, 'points': task.points, 'done': task.completed} for task in tasks]
+        debts_data = [{'name': debt.name, 'points': debt.points} for debt in debts]
+        return JsonResponse({'tasks': tasks_data, 'debts': debts_data})
     return JsonResponse({'status': 'failed', 'error': 'Invalid request'})
