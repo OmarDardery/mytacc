@@ -1,25 +1,22 @@
-from logging import exception
-
-from django.shortcuts import render
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.middleware import csrf
 from django.conf import settings
-from django.core.cache import cache
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
-from .models import User
+from .models import User, Task
 import random
 import string
 import json
 
 @login_required(login_url='')
 def home(request):
-    return render(request, 'mainApp_react/home.html')
+    return render(request, 'mainApp_react/home/build/index.html')
 def index(request):
     csrf_token = csrf.get_token(request)
     if request.user.is_authenticated:
-        response = render(request, 'mainApp_react/home.html')
+        response = redirect(home)
         response.set_cookie('mytacc_csrftoken', csrf_token)
         return response
     else:
@@ -94,4 +91,38 @@ def user_login(request):
             return JsonResponse({'status': 'success'})
         else:
             return JsonResponse({'status': 'failed', 'error': 'Invalid credentials'})
+    return JsonResponse({'status': 'failed', 'error': 'Invalid request'})
+
+@login_required(login_url='')
+def user_logout(request):
+    if request.method == 'POST':
+        request.session.flush()
+        logout(request)
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'failed', 'error': 'Invalid request'})
+@login_required(login_url='')
+def account_page(request):
+    return render(request, 'mainApp_react/accountPage/build/index.html')
+
+@login_required(login_url='')
+def log(request, type):
+    if request.method == 'POST':
+        if type == 'task':
+            data = json.loads(request.body)
+            name = data.get('name')
+            points = data.get('points')
+            user = request.user
+            task = Task(name=name, user=user, points=points)
+            task.save()
+            return JsonResponse({'status': 'success', 'message': 'added task successfully'})
+        elif type == 'debt':
+            data = json.loads(request.body)
+            name = data.get('name')
+            amount = data.get('amount')
+            user = request.user
+            task = Task(name=name, user=user, points=amount)
+            task.save()
+            return JsonResponse({'status': 'success', 'message': 'added debt successfully'})
+        else:
+            return JsonResponse({'status': 'failed', 'message': 'Invalid type'})
     return JsonResponse({'status': 'failed', 'error': 'Invalid request'})

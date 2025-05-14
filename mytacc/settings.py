@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-1&+m%kyg5p$auy$#rg%mz@_u)-49j536k343a5^$6p6fap=un3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["mytacc.onrender.com"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -120,7 +120,9 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "templates/mainApp_react/liasu/build/static"
+    BASE_DIR / "templates/mainApp_react/liasu/build/static",
+    BASE_DIR / "templates/mainApp_react/accountPage/build/static",
+    BASE_DIR / "templates/mainApp_react/home/build/static"
 ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

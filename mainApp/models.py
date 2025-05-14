@@ -12,3 +12,20 @@ class User(AbstractUser):
         return self.email
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
+class Task(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.TextField
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
+    completed = models.BooleanField(default=False)
+    points = models.IntegerField(default=0)
+    def __str__(self):
+        return self.name
+
+class Debt(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.TextField
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='debts')
+    amount = models.IntegerField(default=0)
+    def __str__(self):
+        return self.name

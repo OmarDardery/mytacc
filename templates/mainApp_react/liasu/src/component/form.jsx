@@ -31,7 +31,7 @@ function Form(props) {
     async function handleSignIn() {
         let response = await validateUser(props.username, props.password);
         if(response.status === "success") {
-            window.location.href = "/home";
+            window.location.href = "/accountPage";
         }else{
             props.setMessage(response.error);
             props.notify();

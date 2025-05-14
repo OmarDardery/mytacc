@@ -51,7 +51,7 @@ function App() {
                 setError("");
                 validateCode(code, email, username, password).then((response) => {
                     if(response.status === "success") {
-                        window.location.href = "/home";
+                        window.location.href = "/accountPage";
                     }else{
                         setError(response.error);
                     }
