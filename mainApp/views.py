@@ -15,15 +15,15 @@ import json
 
 @login_required(login_url='')
 def home(request):
-    return render(request, 'mainApp/home.html')
+    return render(request, 'mainApp_react/home.html')
 def index(request):
     csrf_token = csrf.get_token(request)
     if request.user.is_authenticated:
-        response = render(request, 'mainApp/home.html')
+        response = render(request, 'mainApp_react/home.html')
         response.set_cookie('mytacc_csrftoken', csrf_token)
         return response
     else:
-        response = render(request, 'mainApp/liasu/build/index.html')  # Get the CSRF token for the request
+        response = render(request, 'mainApp_react/liasu/build/index.html')  # Get the CSRF token for the request
         response.set_cookie('mytacc_csrftoken', csrf_token)  # Set the CSRF token in a cookie
         return response
 
