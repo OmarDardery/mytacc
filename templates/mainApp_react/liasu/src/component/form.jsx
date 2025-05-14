@@ -29,13 +29,14 @@ function Form(props) {
         }
     }
     async function handleSignIn() {
-        let response = await validateUser(props.username, props.password);
-        if(response.status === "success") {
-            window.location.href = "/accountPage";
-        }else{
-            props.setMessage(response.error);
-            props.notify();
-        }
+        validateUser(props.username, props.password).then(response => {
+            if(response.status === "success") {
+                window.location.reload();
+            }else{
+                props.setMessage(response.error);
+                props.notify();
+            }
+        });
     }
     return (<div className={"form"}>
         <div className={"form-field"}>
