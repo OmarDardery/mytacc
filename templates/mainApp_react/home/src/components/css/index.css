@@ -38,15 +38,16 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 60vh;
+    height: 75vh;
 }
 .t-account{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr 6fr;
-    row-gap: 10px;
+    grid-template-rows: 1fr 5fr;
     width: 80vw;
     column-gap: 10px;
+    row-gap: 10px;
+    background-color: darkslategrey;
 }
 .t-account h2{
     text-align: center;
@@ -55,8 +56,15 @@
 .task-debt-container{
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
 }
 .task-container{
     display: flex;
 
+}
+.t-account *{
+    background-color: whitesmoke;
 }

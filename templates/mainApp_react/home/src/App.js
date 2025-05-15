@@ -29,10 +29,8 @@ function App() {
                 <div style={{"gridRow": "2", "gridColumn": "1"}} className={"task-debt-container"}>
                     {tasks.map((task, index) => {
                         return (
-                            <div key={index} className={"task-container"}>
-                                <h3>{task.name}</h3>
-                                <p>{task.points} xp</p>
-                                {task.completed ? <p>Completed</p> : <p>Not Completed</p>}
+                            <div className="card">
+
                             </div>
                         );
                     })}
