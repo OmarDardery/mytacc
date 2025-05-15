@@ -162,3 +162,8 @@ EMAIL_USE_TLS = True                   # Use TLS encryption
 EMAIL_HOST_USER = 'your-email@example.com'  # Your email address
 EMAIL_HOST_PASSWORD = 'your-password'      # Your email password
 DEFAULT_FROM_EMAIL = 'your-email@example.com'
+
+# settings.py
+GEMINI_API_KEY = 'AIzaSyABYVfhwJFs1-pUGuRJEDhDqhjHPYTl_qs'
+GEMINI_API_SECRET = 'your_api_secret_here'
+GEMINI_BASE_URL = 'https://api.sandbox.gemini.com/v1'  # Use production URL for production

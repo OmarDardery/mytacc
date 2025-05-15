@@ -4,12 +4,25 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.middleware import csrf
-from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import User, Task, Debt
 import random
 import string
 import json
+from django.conf import settings
+from google import genai
+from pydantic import BaseModel
 
+class Task_Point(BaseModel):
+    appropriate: bool
+    points: int
+    cleaned_text: str
+
+class Debt_Point(BaseModel):
+    appropriate: bool
+    points: int
+    cleaned_text: str
 @login_required(login_url='')
 def home(request):
     return render(request, 'mainApp_react/home/build/index.html')
@@ -105,26 +118,46 @@ def account_page(request):
     return render(request, 'mainApp_react/accountPage/build/index.html')
 
 @login_required(login_url='')
-def log(request, type):
+def add(request, type):
     if request.method == 'POST':
+        client = genai.Client(api_key=settings.GEMINI_API_KEY)
+        data = json.loads(request.body)
         if type == 'task':
-            data = json.loads(request.body)
             name = data.get('name')
-            points = data.get('points')
-            user = request.user
-            task = Task(name=name, user=user, points=points)
-            task.save()
-            return JsonResponse({'status': 'success', 'message': 'added task successfully'})
+            response = client.models.generate_content(
+                model="gemini-2.0-flash",
+                contents=f"This is a task assessment for a user, they submitted this task to show their gratitude, first determine whether what was submitted is inappropriate or shouldn't be counted as task or is valid, then assess it on a scale from 1 to 100 points based on how meaningful or impactful it is for a community, example task: donate 10 dollars to charity. The user submitted: '{name}'",
+                config={
+                    "response_mime_type": "application/json",
+                    "response_schema": Task_Point,
+                },
+            )
+            response = response.parsed
+            if response.appropriate == True:
+                user = request.user
+                task = Task(name=name, user=user, points=response.points)
+                task.save()
+                return JsonResponse({'status': 'success', 'message': 'added task successfully'})
+            else:
+                return JsonResponse({'status': 'failed', 'message': 'Task is inappropriate'})
         elif type == 'debt':
-            data = json.loads(request.body)
             name = data.get('name')
-            amount = data.get('amount')
-            user = request.user
-            task = Task(name=name, user=user, points=amount)
-            task.save()
-            return JsonResponse({'status': 'success', 'message': 'added debt successfully'})
-        else:
-            return JsonResponse({'status': 'failed', 'message': 'Invalid type'})
+            response = client.models.generate_content(
+                model="gemini-2.0-flash",
+                contents=f"This is a system that translates things that a user says they are grateful for into debt, by rating things from 0 to 100 based on how much the user should be grateful for it. first assess whether the user is being serious and set the 'appropriate attribute accordingly. then asses it and put the score in points. The user submitted: '{name}'",
+                config={
+                    "response_mime_type": "application/json",
+                    "response_schema": Debt_Point,
+                },
+            )
+            response = response.parsed
+            if response.appropriate == True:
+                user = request.user
+                task = Task(name=name, user=user, points=response.points)
+                task.save()
+                return JsonResponse({'status': 'success', 'message': 'added debt successfully'})
+            else:
+                return JsonResponse({'status': 'failed', 'message': 'Debt is inappropriate'})
     return JsonResponse({'status': 'failed', 'error': 'Invalid request'})
 @login_required(login_url='')
 def get_tasks_and_debts(request):
