@@ -23,7 +23,9 @@ function App() {
     <div style={{ textAlign: 'center' }}>
         <NavigationBar />
         <div style={{ height: "10vh"}}></div>
-        {score}
+        <h1 className={"score"}>
+            Score: {score}🌱
+        </h1>
         <div className={"home-container"}>
             <div className={"t-account"}>
                 <h2 style={{"gridRow": "1", "gridColumn": "1"}}>
@@ -55,6 +57,7 @@ function App() {
                                         }else{
                                             console.log("Error fetching tasks");
                                         }
+                                        window.location.href("/reload-home");
                                     })
                                 }}>Delete</button>
                                 <button onClick={()=>{
@@ -72,6 +75,7 @@ function App() {
                                         }else{
                                             console.log("Error fetching tasks");
                                         }
+                                        window.location.href("/reload-home");
                                     })
                                 }}>Done</button>
                             </div>
@@ -101,6 +105,7 @@ function App() {
                                         }else{
                                             console.log("Error fetching tasks");
                                         }
+                                        window.location.href("/reload-home");
                                     })
                                 }}>Pay off</button>
                             </div>

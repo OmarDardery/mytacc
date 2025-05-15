@@ -166,7 +166,7 @@ def get_tasks_and_debts_and_points(request):
         tasks = Task.objects.filter(user=request.user)
         debts = Debt.objects.filter(user=request.user)
         tasks_data = [{'name': task.name, 'points': task.points, "id": task.id, "done": task.completed} for task in tasks]
-        debts_data = [{'name': debt.name, 'points': debt.points, "id": debt.id, "paid": debt.paid_off} for debt in debts]
+        debts_data = [{'name': debt.name, 'points': debt.points, "id": debt.id, "paid": debt.paid} for debt in debts]
         return JsonResponse({'tasks': tasks_data, 'debts': debts_data, 'points': request.user.points})
     return JsonResponse({'status': 'failed', 'error': 'Invalid request'})
 
@@ -190,6 +190,7 @@ def task_is_done(request, id):
             task.completed = True
             task.save()
             request.user.points += task.points
+            request.user.save()
             return JsonResponse({'status': 'success', 'message': 'Debt deleted successfully'})
         else:
             return JsonResponse({'status': 'failed', 'error': 'Debt not found'})
@@ -199,10 +200,18 @@ def task_is_done(request, id):
 def pay_off_debt(request, id):
     if request.method == 'UPDATE':
         debt = Debt.objects.filter(id=id, user=request.user).first()
+
         if debt:
             request.user.points -= debt.points
-            debt.paid_off = True
+            debt.paid = True
+            debt.save()
+            request.user.save()
             return JsonResponse({'status': 'success', 'message': 'Debt deleted successfully'})
         else:
             return JsonResponse({'status': 'failed', 'error': 'Debt not found'})
+    return JsonResponse({'status': 'failed', 'error': 'Invalid request'})
+
+def send_home(request):
+    if request.method == 'GET':
+        return redirect("home")
     return JsonResponse({'status': 'failed', 'error': 'Invalid request'})

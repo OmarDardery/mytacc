@@ -14,4 +14,5 @@ urlpatterns = [
     path('api/delete-task/<int:id>', views.delete_task, name='delete-task'),
     path('api/task-is-done/<int:id>', views.task_is_done, name='task-is-done'),
     path('api/pay-off-debt/<int:id>', views.pay_off_debt, name='pay-off-debt'),
+    path('reload-home', views.send_home, name='reload-home'),
 ]

@@ -30,7 +30,7 @@ class Debt(models.Model):
     name = models.TextField(default="No name")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='debts')
     points = models.IntegerField(default=0)
-    paid_off = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False)
     def __str__(self):
         return self.name
     def save(self, *args, **kwargs):
