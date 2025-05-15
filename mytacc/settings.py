@@ -146,10 +146,9 @@ CACHES = {
 # Cookie-based sessions (server doesn't store anything; data is stored on the client)
 # SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
-SESSION_COOKIE_AGE = 300  # Set session expiration time in seconds (default is 2 weeks).
+SESSION_COOKIE_AGE = 172800  # Set session expiration time in seconds (default is 2 weeks).
 SESSION_SAVE_EVERY_REQUEST = True  # Save the session on every request if modified.
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Keep database backend.
-
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'

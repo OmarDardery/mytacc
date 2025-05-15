@@ -9,5 +9,9 @@ urlpatterns = [
     path('api/logout/', views.user_logout, name='logout'),
     path('api/logout/after-logout', views.index, name='index'),
     path('account/', views.account_page, name='account-page'),
-    path('api/add/', views.add, name='log'),
+    path('api/add/<str:type>', views.add, name='log'),
+    path('api/tasks_and_debts', views.get_tasks_and_debts_and_points, name='tasks-and-debts'),
+    path('api/delete-task/<int:id>', views.delete_task, name='delete-task'),
+    path('api/task-is-done/<int:id>', views.task_is_done, name='task-is-done'),
+    path('api/pay-off-debt/<int:id>', views.pay_off_debt, name='pay-off-debt'),
 ]
