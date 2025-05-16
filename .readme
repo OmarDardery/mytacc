@@ -1,0 +1,14 @@
+Lets get started with running myTacc.
+first, make sure you have npm and python installed.
+then, git clone the repo and cd into it.
+then, run the commands in build.txt to install the dependencies and build the frontend.
+finally, run python manage.py runserver to start the server.
+
+# myTacc
+myTacc is a web application that allows users to manage their tasks and projects. It is built using Django and React, and uses SQLite as the database, which isnt very good but this is a dummy project of how it would look like in production.
+# Features
+- User authentication
+- Task management to show gratitude
+- adding things you are grateful for
+- paying off debts using points you earn
+- task deletion

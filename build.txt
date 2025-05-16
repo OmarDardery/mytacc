@@ -1,0 +1,8 @@
+pip install -r requirements.txt
+cd templates/mainApp_react/accountPage && npm install
+npm run build
+cd ../home && npm install
+npm run build
+cd ../liasu && npm install
+npm run build
+cd ../../../ && python manage.py collectstatic --noinput

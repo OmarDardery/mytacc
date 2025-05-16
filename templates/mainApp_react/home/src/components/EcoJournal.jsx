@@ -1,7 +1,7 @@
 // src/components/EcoJournal/EcoJournal.jsx
 import React, { useState } from 'react';
 import getCookie from "./getCookie";
-const EcoJournal = () => {
+const EcoJournal = (props) => {
     let [taskName, setTaskName] = useState("");
     let [debtName, setDebtName] = useState("");
     let [action, setAction] = useState("Task")
@@ -21,6 +21,9 @@ const EcoJournal = () => {
               response.json().then(data => {
                   console.log(data);
               })
+            props.setRefresh(!props.refresh);
+              setTaskName("");
+                setDebtName("");
           }else{
               console.log("Error fetching tasks");
           }
@@ -43,6 +46,10 @@ const EcoJournal = () => {
               response.json().then(data => {
                   console.log(data);
               })
+
+            props.setRefresh(!props.refresh);
+                setDebtName("");
+                setTaskName("");
           }else{
               console.log("Error fetching tasks");
           }
@@ -80,7 +87,6 @@ const EcoJournal = () => {
             }else {
                 handleDebtSubmit(debtName);
             }
-            window.location.reload();
         }} className={"form-submit-button"}>Submit</button>
     </div>
   );

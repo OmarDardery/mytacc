@@ -4,8 +4,6 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.middleware import csrf
-from django.views.decorators.csrf import csrf_exempt
-
 from .models import User, Task, Debt
 import random
 import string
@@ -116,6 +114,18 @@ def user_logout(request):
 @login_required(login_url='')
 def account_page(request):
     return render(request, 'mainApp_react/accountPage/build/index.html')
+
+@login_required(login_url='')
+def get_user(request):
+    if request.method == 'GET':
+        user = request.user
+        user_data = {
+            'username': user.username,
+            'email': user.email,
+            'points': user.points
+        }
+        return JsonResponse(user_data)
+    return JsonResponse({'status': 'failed', 'error': 'Invalid request'})
 
 @login_required(login_url='')
 def add(request, type):
