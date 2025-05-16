@@ -4,7 +4,7 @@
 
 In today's fast-paced world, individuals often reflect on what they are grateful for, yet lack structured ways to translate gratitude into tangible, positive actions. This disconnect limits societal impact and individual growth. Simultaneously, organizations aligned with the United Nations Sustainable Development Goals (SDGs) face challenges in engaging individuals meaningfully.
 
-**myTacc** (short for “my Thanks and Contribution Calculator”) is a web-based platform that bridges this gap. It allows users to:
+**myTacc** (short for “my T Account”) is a web-based platform that bridges this gap. It allows users to:
 
 - Express gratitude for people, experiences, or privileges. 🙏
 - Commit to specific actions that give back to society. 🎯
