@@ -136,7 +136,7 @@ def add(request, type):
             name = data.get('name')
             response = client.models.generate_content(
                 model="gemini-2.0-flash",
-                contents=f"This is a task assessment for a user, they submitted this task to show their gratitude, first determine whether what was submitted is inappropriate or shouldn't be counted as task or is valid, then assess it on a scale from 1 to 100 points based on how meaningful or impactful it is for a community, example task: donate 10 dollars to charity. The user submitted: '{name}'",
+                contents=f"This is a task assessment for a user, they submitted this task to show their gratitude, first determine whether what was submitted is inappropriate or shouldn't be counted as task or is valid, then assess it on a scale from 1 to 100 points based on how meaningful or impactful it is for a community, example task: donate 10 dollars to charity. if the user submitted nothing or something that cannot be understood, return inappropriate. The user submitted: '{name}'",
                 config={
                     "response_mime_type": "application/json",
                     "response_schema": Task_Point,
@@ -210,7 +210,6 @@ def task_is_done(request, id):
 def pay_off_debt(request, id):
     if request.method == 'UPDATE':
         debt = Debt.objects.filter(id=id, user=request.user).first()
-
         if debt:
             request.user.points -= debt.points
             debt.paid = True
