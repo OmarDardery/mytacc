@@ -1,0 +1,128 @@
+System Overview
+MyTacc is a task and gratitude management application built with Django and React. The system enables users to track eco-friendly activities and gratitude statements using a points-based mechanism. Each user accumulates points by completing tasks and spends points acknowledging gratitude debts, with Google's Gemini AI providing objective point evaluation.
+
+Architecture
+Technical Foundation
+Backend
+- Django 5.2.1
+- SQLite database (development configuration)
+- Google Gemini API integration
+- Django authentication system
+- WhiteNoise for static file delivery
+
+Frontend
+- React 19.1.0
+- Multiple application structure (authentication, main interface, account management)
+
+Deployment
+- Django collectstatic for static file organization
+- Build script for automated deployment
+
+Core Components
+1. Authentication System
+The authentication system provides:
+- Standard login with username and password
+- Two-factor registration with email verification
+- One-time password email verification
+- Session-based authentication persistence
+
+2. Task and Debt Management
+Data Models
+- User: Extended user model with points tracking
+- Task: User tasks with point values and completion tracking
+- Debt: Gratitude acknowledgments with point requirements
+
+AI Evaluation
+The Gemini AI integration:
+- Evaluates task significance and assigns point values (1-100)
+- Assesses gratitude statements and determines appropriate point values
+- Filters inappropriate content
+
+3. Points System
+The application operates using a straightforward points mechanism:
+- Users earn points by completing tasks
+- Points are spent to acknowledge gratitude debts
+- The system maintains a running balance for each user
+
+Application Workflow
+User Registration and Authentication
+1. New users register with username, email, and password
+2. System validates input and sends verification code via email which doesnt send code to actual emails, no smtp was registered since this is a dummy project
+3. User completes registration by entering the verification code
+4. Returning users authenticate using username and password
+
+Task Workflow
+1. User creates a task through the interface
+2. System sends task to Gemini AI for evaluation
+3. AI-approved tasks are stored with assigned point values
+4. Users can complete tasks to earn points or remove tasks as needed
+
+Gratitude Debt Workflow
+1. User records gratitude statements
+2. System evaluates statements via Gemini AI
+3. System creates gratitude debts with assigned point values
+4. Users pay off debts by spending accumulated points
+
+API Structure
+Authentication Endpoints
+- User login, registration, verification, and logout
+
+User Data Endpoints
+- Current user information retrieval
+
+Task and Debt Management
+- Task/debt creation with AI evaluation
+- Task/debt listing and status updates
+- Task completion and debt payment
+
+Frontend Structure
+The application comprises three specialized React applications:
+1. Authentication Interface:
+    - Login and registration forms
+    - Email verification handling
+
+2. Main Application Interface:
+    - Task and debt display and management
+    - Point balance tracking
+    - New entry creation
+
+3. Account Management Interface:
+    - User settings and profile management
+
+Data Management
+The application implements efficient data handling through:
+- Targeted API calls for specific data needs
+- State-based data refresh without full page reloads
+- User-specific data filtering on the server
+
+Security Implementation
+The system incorporates multiple security measures:
+1. CSRF token validation for all API requests
+2. Authentication requirement enforcement for protected endpoints
+3. Client and server-side input validation
+4. AI-based content moderation
+5. Secure password handling through Django's authentication system
+
+Deployment Process
+The application's deployment is streamlined through an automated build script that:
+1. Installs Python dependencies
+2. Builds each React application
+3. Organizes static files for production delivery
+
+Notable Technical Achievements
+1. AI Integration: Seamless integration of Google's Gemini AI for content evaluation provides objective scoring and moderation.
+2. Multi-application Structure: The separation into purpose-specific React applications enhances maintainability and performance.
+3. Email Verification System: The implementation of a secure, time-limited verification system enhances security.
+4. Django-React Integration: The application demonstrates effective integration between Django's robust backend capabilities and React's dynamic frontend rendering.
+5. Stateful Data Updates: The implementation of state-based data refreshing provides a responsive user experience without unnecessary server requests.
+
+Configuration Requirements
+For production deployment, the following configurations should be established:
+- Django secret key
+- Debug mode (disabled for production)
+- Allowed hosts configuration
+- Gemini API credentials
+- Email service configuration
+
+Conclusion
+MyTacc demonstrates effective application of modern web development practices, combining Django's robust server capabilities with React's responsive interface design. The integration of AI for content evaluation adds a sophisticated, objective dimension to the user experience while maintaining technical simplicity. The system serves as an example of how relatively straightforward technical components can be combined to create a distinctive, functional application.
